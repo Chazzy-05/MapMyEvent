@@ -1,0 +1,44 @@
+HTML
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartEventos | Localizador de Mesas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mt-4">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">SmartEventos</h1>
+    <p class="text-xs text-center text-gray-500 mb-6">Localizador de Mesas • Protocolo</p>
+    <input type="text" id="searchInput" onkeyup="buscarConvidado()" placeholder="Digite o nome do convidado..." class="w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 mb-4">
+    <ul id="listaConvidados" class="divide-y divide-gray-200"></ul>
+  </div>
+  <script>
+    const convidados = [
+      { nome: "Ana Silva", mesa: "Mesa 01" },
+      { nome: "Carlos Santos", mesa: "Mesa 03" },
+      { nome: "Maria Oliveira", mesa: "Mesa VIP" },
+      { nome: "Mateus Bernardo", mesa: "Mesa 02" }
+    ];
+    function renderizarLista(dados) {
+      const lista = document.getElementById('listaConvidados');
+      lista.innerHTML = '';
+      if (dados.length === 0) {
+        lista.innerHTML = '<li class="py-4 text-center text-gray-500">Nenhum convidado encontrado</li>';
+        return;
+      }
+      dados.forEach(c => {
+        const item = document.createElement('li');
+        item.className = 'py-3 flex justify-between items-center';
+        item.innerHTML = `<span class="font-medium text-gray-700 text-lg">${c.nome}</span> <span class="bg-amber-100 text-amber-800 font-semibold px-3 py-1 rounded-full text-sm">${c.mesa}</span>`;
+        lista.appendChild(item);
+      });
+    }
+    function buscarConvidado() {
+      const termo = document.getElementById('searchInput').value.toLowerCase();
+      const filtrados = convidados.filter(c => c.nome.toLowerCase().includes(termo));
+      renderizarLista(filtrados);
+    }
+    renderizarLista(convidados);
+  </script>
